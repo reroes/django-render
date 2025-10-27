@@ -172,3 +172,18 @@ CORS_ALLOW_ALL_ORIGINS = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
+
+
+# --- Crear superusuario automáticamente en Render (solo la primera vez) ---
+import os
+from django.contrib.auth import get_user_model
+
+if os.environ.get("RENDER_CREATE_SUPERUSER") == "true":
+    User = get_user_model()
+    username = os.environ.get("DJANGO_SUPERUSER_USERNAME", "admin")
+    email = os.environ.get("DJANGO_SUPERUSER_EMAIL", "admin@example.com")
+    password = os.environ.get("DJANGO_SUPERUSER_PASSWORD", "admin12345")
+
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username=username, email=email, password=password)
+        print("✅ Superusuario creado automáticamente.")
