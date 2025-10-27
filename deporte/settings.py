@@ -176,20 +176,20 @@ CSRF_COOKIE_SECURE = not DEBUG
 
 # --- Crear superusuario automáticamente en Render (solo la primera vez) ---
 
-import os
-from django.contrib.auth import get_user_model
-
-if os.environ.get("RENDER_CREATE_SUPERUSER") == "true":
-    try:
-        User = get_user_model()
-        username = os.environ.get("DJANGO_SUPERUSER_USERNAME", "admin")
-        email = os.environ.get("DJANGO_SUPERUSER_EMAIL", "admin@example.com")
-        password = os.environ.get("DJANGO_SUPERUSER_PASSWORD", "Admin12345")
-
-        if not User.objects.filter(username=username).exists():
-            User.objects.create_superuser(username=username, email=email, password=password)
-            print("✅ Superusuario creado automáticamente.")
-        else:
-            print("ℹ️ El superusuario ya existe.")
-    except Exception as e:
-        print(f"⚠️ Error creando superusuario: {e}")
+# import os
+# from django.contrib.auth import get_user_model
+# 
+# if os.environ.get("RENDER_CREATE_SUPERUSER") == "true":
+#     try:
+#         User = get_user_model()
+#         username = os.environ.get("DJANGO_SUPERUSER_USERNAME", "admin")
+#         email = os.environ.get("DJANGO_SUPERUSER_EMAIL", "admin@example.com")
+#         password = os.environ.get("DJANGO_SUPERUSER_PASSWORD", "Admin12345")
+# 
+#         if not User.objects.filter(username=username).exists():
+#             User.objects.create_superuser(username=username, email=email, password=password)
+#             print("✅ Superusuario creado automáticamente.")
+#         else:
+#             print("ℹ️ El superusuario ya existe.")
+#     except Exception as e:
+#         print(f"⚠️ Error creando superusuario: {e}")
